@@ -1,12 +1,19 @@
 from app import db, app
-
+from dotenv import load_dotenv
+import os
 from flask import jsonify,request,url_for
 import requests
 from app.models import User, Picture
 
+
+
+
+
+API_KEY=os.getenv('API_KEY')
+
 @app.route('/picture', methods=['POST'])
 def get_picture():
-    picture = requests.get('https://api.nasa.gov/planetary/apod?api_key=ebxaiLHp53mt8bjplC2ePorlmO580BuaRhDGkZZM')
+    picture = requests.get(f'https://api.nasa.gov/planetary/apod?api_key={API_KEY}')
     pic = Picture()
     data = {
         "url": picture.url
