@@ -4,7 +4,7 @@ from flask import jsonify,request,url_for
 
 from app.models import User
 
-
+@app.route('/picture', methods=['GET'])
 
 @app.route('/user/<id>', methods=["GET"])
 def get_user(id):
@@ -33,7 +33,8 @@ def create_user():
 @app.route('/user/<id>', methods=['DELETE'])
 def delete_user(id):
     user = User.query.get(id)
-    user.delete()
+    db.session.delete(user)
+    db.session.commit()
     return jsonify([u.to_dict() for u in User.query.all()])
 
 
@@ -43,7 +44,10 @@ def get_rating(id):
 
 @app.route('/user/<id>/rating', methods=["DELETE"])
 def delete_rating(id):
-    pass
+    user = User.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify([u.to_dict() for u in User.query.all()])
 
 @app.route('/user/<id>/rating', methods=["PUT"])
 def update_rating(id):
