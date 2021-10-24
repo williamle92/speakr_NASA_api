@@ -54,6 +54,3 @@ def update_rating(id):
     return jsonify(user.to_dict())
 
 
-@app.route('/')
-def api_root():
-    return "Welcome"
