@@ -24,3 +24,24 @@ class User(db.Model):
         for field in ['email', 'rating']:
             if field in data:
                 setattr(self, field, data[field])
+
+
+
+
+class Picture(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    url = db.Column(db.String(200))
+
+
+
+    def to_dict(self):
+        data = {
+            "id": self.id,
+            "url": self.url
+        }
+        return data
+
+    def from_dict(self, data):
+        for i in ['url']:
+            if i in data:
+                setattr(self, i, data[i])

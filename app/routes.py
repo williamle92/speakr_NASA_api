@@ -1,10 +1,20 @@
 from app import db, app
 
 from flask import jsonify,request,url_for
+import requests
+from app.models import User, Picture
 
-from app.models import User
-
-@app.route('/picture', methods=['GET'])
+@app.route('/picture', methods=['POST'])
+def get_picture():
+    picture = requests.get('https://api.nasa.gov/planetary/apod?api_key=ebxaiLHp53mt8bjplC2ePorlmO580BuaRhDGkZZM')
+    pic = Picture()
+    data = {
+        "url": picture.url
+    }
+    pic.from_dict(data)
+    db.session.add(pic)
+    db.session.commit()
+    return jsonify([p.to_dict() for p in Picture.query.all()])
 
 @app.route('/user/<id>', methods=["GET"])
 def get_user(id):
